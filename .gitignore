@@ -1,0 +1,14 @@
+api-doc/
+target/
+build/
+
+.settings/
+.gradle/
+.nb-gradle/
+.idea/
+
+.project
+.classpath
+*.iml
+deps.txt
+cobertura.ser

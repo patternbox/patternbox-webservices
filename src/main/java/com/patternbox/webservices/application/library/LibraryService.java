@@ -23,15 +23,18 @@ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
  ******************************************************************************/
-package com.patternbox.webservices.application.restful;
+package com.patternbox.webservices.application.library;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -53,6 +56,18 @@ public class LibraryService {
 	@Inject
 	private AuthorRepository authorRepository;
 
+	@Inject
+	private DataImporter dataImporter;
+
+	@PostConstruct
+	private void init() {
+		try {
+			dataImporter.importAuthors();
+		} catch (IOException e) {
+			throw new IllegalStateException("Data import failed.", e);
+		}
+	}
+
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	public String root() {
@@ -62,9 +77,17 @@ public class LibraryService {
 
 	@GET
 	@Path("/authors")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_XML)
 	public List<Author> authors() {
 		logger.info("Method 'authors' called.");
 		return authorRepository.all();
+	}
+
+	@GET
+	@Path("/author/{email}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public Author author(@PathParam("email") String email) {
+		logger.info("Method 'author' called, email: " + email);
+		return authorRepository.findByEmail(email);
 	}
 }

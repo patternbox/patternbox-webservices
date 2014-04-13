@@ -35,6 +35,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * @author <a href='http://www.patternbox.com'>D. Ehms, Patternbox</a>
@@ -43,6 +46,9 @@ import javax.persistence.NamedQuery;
 @NamedQueries({
 		@NamedQuery(name = "Author.findAll", query = "SELECT a FROM Author a ORDER BY a.lastName, a.firstName"),
 		@NamedQuery(name = "Author.findByName", query = "SELECT a FROM Author a WHERE a.lastName = :lastName") })
+@XmlRootElement
+// otherwise you need getter & setter!!! methods for your fields
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Author {
 
 	@Id

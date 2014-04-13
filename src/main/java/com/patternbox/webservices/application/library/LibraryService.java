@@ -32,6 +32,8 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.jws.WebMethod;
+import javax.jws.WebService;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -48,6 +50,8 @@ import com.patternbox.webservices.domain.model.AuthorRepository;
  */
 @Path("/library")
 @Stateless
+@WebService
+// (serviceName = "LibraryService")
 public class LibraryService {
 
 	@Inject
@@ -78,6 +82,7 @@ public class LibraryService {
 	@GET
 	@Path("/authors")
 	@Produces(MediaType.APPLICATION_XML)
+	@WebMethod
 	public List<Author> authors() {
 		logger.info("Method 'authors' called.");
 		return authorRepository.all();
@@ -86,6 +91,7 @@ public class LibraryService {
 	@GET
 	@Path("/author/{email}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@WebMethod(exclude = true)
 	public Author author(@PathParam("email") String email) {
 		logger.info("Method 'author' called, email: " + email);
 		return authorRepository.findByEmail(email);

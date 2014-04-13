@@ -29,6 +29,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -47,7 +48,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 		@NamedQuery(name = "Author.findAll", query = "SELECT a FROM Author a ORDER BY a.lastName, a.firstName"),
 		@NamedQuery(name = "Author.findByName", query = "SELECT a FROM Author a WHERE a.lastName = :lastName") })
 @XmlRootElement
-// otherwise you need getter & setter!!! methods for your fields
+// otherwise we need getter & setter!!! methods for our fields
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Author {
 
@@ -58,7 +59,7 @@ public class Author {
 
 	private String lastName;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "Author_X_Literature", joinColumns = { @JoinColumn(name = "author") }, inverseJoinColumns = { @JoinColumn(name = "isbn") })
 	private final Set<Literature> literatures = new TreeSet<Literature>();
 

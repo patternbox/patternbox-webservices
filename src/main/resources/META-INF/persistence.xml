@@ -5,8 +5,9 @@
   version="2.0">
   <persistence-unit name="LibraryPU">
   
-    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <!--provider>org.eclipse.persistence.jpa.PersistenceProvider</provider: optional !!! -->
     <jta-data-source>java:comp/DefaultDataSource</jta-data-source>
+    <!--jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source-->
     
     <class>com.patternbox.webservices.domain.model.Author</class>
     <class>com.patternbox.webservices.domain.model.Publisher</class>
@@ -16,7 +17,7 @@
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     
     <properties>
-      <!-- EclipseLink specific properties -->
+      <!-- Glassfish: EclipseLink specific properties -->
       <property name="eclipselink.target-database" value="Derby" />
       <property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
       <!--property name="eclipselink.ddl-generation" value="create-tables"/ -->
@@ -25,6 +26,12 @@
       <property name="eclipselink.logging.level" value="FINEST" />
       <property name="eclipselink.logging.level.sql" value="FINEST" />
       <property name="eclipselink.logging.level.cache" value="FINEST" />
+      <!-- JBoss: Hibernate specific properties -->
+      <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+      <property name="hibernate.hbm2ddl.auto" value="create-drop" />
+      <property name="hibernate.show_sql" value="true" />
+      <property name="hibernate.format_sql" value="false" />
+      <property name="hibernate.transaction.flush_before_completion" value="true" />      
     </properties>
   </persistence-unit>
 </persistence>

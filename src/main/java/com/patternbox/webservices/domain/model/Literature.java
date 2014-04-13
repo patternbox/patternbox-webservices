@@ -30,6 +30,7 @@ import java.util.TreeSet;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -51,7 +52,7 @@ public abstract class Literature {
 	@Basic(optional = false)
 	private String title;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "Author_X_Literature", joinColumns = { @JoinColumn(name = "isbn") }, inverseJoinColumns = { @JoinColumn(name = "author") })
 	private final Set<Author> authors = new TreeSet<Author>();
 

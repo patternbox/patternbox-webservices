@@ -23,26 +23,41 @@ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
  ******************************************************************************/
-package com.patternbox.webservices.domain.model;
+package com.patternbox.webservices.infrastructure.persistence;
 
 import java.util.List;
 
+import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import com.patternbox.webservices.domain.model.Author;
+import com.patternbox.webservices.domain.model.AuthorRepository;
+
 /**
+ * Author repository implementation
+ * 
  * @author <a href='http://www.patternbox.com'>D. Ehms, Patternbox</a>
  */
-public interface AuthorRepository {
+@Named
+public class JpaAuthorRepository implements AuthorRepository {
+
+	@PersistenceContext
+	private EntityManager em;
 
 	/**
-	 * Returns all authors
+	 * @see com.patternbox.webservices.domain.model.AuthorRepository#all()
 	 */
-	public abstract List<Author> all();
+	@Override
+	public List<Author> all() {
+		return em.createNamedQuery("Author.findAll", Author.class).getResultList();
+	}
 
 	/**
-	 * Find author by e-mail (its primary key).
-	 * 
-	 * @param email
-	 *          the e-mail address
-	 * @return the author
+	 * @see com.patternbox.webservices.domain.model.AuthorRepository#findByEmail(java.lang.String)
 	 */
-	public abstract Author findByEmail(String email);
+	@Override
+	public Author findByEmail(String email) {
+		return em.find(Author.class, email);
+	}
 }

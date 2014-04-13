@@ -1,6 +1,6 @@
 /**************************** Copyright notice ********************************
 
-Copyright (C)2014 by D. Ehms, http://www.patternbox.com
+Copyright (C)2013 by D. Ehms, http://www.patternbox.com
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -23,30 +23,29 @@ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
  ******************************************************************************/
-package com.patternbox.webservices.restful;
+package com.patternbox.webservices.shared.cdi;
 
 import java.util.logging.Logger;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.spi.InjectionPoint;
 
 /**
- * Simple RESTful resources
+ * CDI based JDK logger producer.
  * 
  * @author <a href='http://www.patternbox.com'>D. Ehms, Patternbox</a>
  */
-@Path("/simple")
-@ApplicationScoped
-public class SimpleService {
+public class LoggerProducer {
 
-	@Inject
-	private Logger logger;
-
-	@GET
-	public String hello() {
-		logger.info("Method 'hello' called.");
-		return "Hello RESTful Resource";
+	/**
+	 * Produces and returns JDK logger instance.
+	 * 
+	 * @param injectionPoint
+	 *          the injection point to detect the required class name
+	 * @return JDK logger
+	 */
+	@Produces
+	Logger produceLogger(InjectionPoint injectionPoint) {
+		return Logger.getLogger(injectionPoint.getMember().getDeclaringClass().getName());
 	}
 }

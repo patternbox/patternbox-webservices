@@ -22,39 +22,32 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * ****************************************************************************
  */
-package com.patternbox.webservices.soap;
+package com.patternbox.webservices.application.soap;
 
-import java.util.logging.Logger;
-
-import javax.inject.Inject;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
 import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import javax.jws.soap.SOAPBinding.Style;
 
 /**
- * Simple SOAP web service implementation
+ * Web Service Endpoint Interface.
  * 
  * @author <a href='http://www.patternbox.com'>D. Ehms, Patternbox</a>
  */
-// @WebService(endpointInterface = "com.patternbox.webservices.soap.HelloService", wsdlLocation =
-// "WEB-INF/wsdl/hello.wsdl")
-@WebService(endpointInterface = "com.patternbox.webservices.soap.RpcService", serviceName = "RPC_Service")
-public class RpcServiceImpl implements RpcService {
-
-	@Inject
-	private Logger logger;
+@WebService(wsdlLocation = "WEB-INF/wsdl/rpc.wsdl")
+// optional
+// @SOAPBinding(style = Style.DOCUMENT, use = Use.LITERAL)
+@SOAPBinding(style = Style.RPC)
+public interface RpcService {
 
 	/**
-	 * @see com.patternbox.webservices.soap.RpcService#hello(java.lang.String)
+	 * Say hello to a named person.
+	 * 
+	 * @param name
+	 *          the persons name.
+	 * @return the hello message
 	 */
-	@Override
-	public String hello(String name) {
-		logger.info("Method 'hello' called, name: " + name);
-		return "Hello " + name;
-	}
-
-	/**
-	 * Check method, should not appear in generated WSDL.
-	 */
-	public int noWebMethod() {
-		return 0;
-	}
+	@WebMethod(action = "sayHello")
+	String hello(@WebParam(name = "param_name") String name);
 }

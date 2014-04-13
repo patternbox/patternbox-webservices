@@ -1,6 +1,6 @@
 /**************************** Copyright notice ********************************
 
-Copyright (C)2013 by D. Ehms, http://www.patternbox.com
+Copyright (C)2014 by D. Ehms, http://www.patternbox.com
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -23,16 +23,30 @@ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
  ******************************************************************************/
-package com.patternbox.webservices.restful;
+package com.patternbox.webservices.application.restful;
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import java.util.logging.Logger;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
 
 /**
- * Application path configuration for RESTful resources.
+ * Simple RESTful resources
  * 
  * @author <a href='http://www.patternbox.com'>D. Ehms, Patternbox</a>
  */
-@ApplicationPath("/restful")
-public class RestfulServiceApp extends Application {
+@Path("/simple")
+@ApplicationScoped
+public class SimpleService {
+
+	@Inject
+	private Logger logger;
+
+	@GET
+	public String hello() {
+		logger.info("Method 'hello' called.");
+		return "Hello RESTful Resource";
+	}
 }

@@ -23,28 +23,48 @@ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
  ******************************************************************************/
-package com.patternbox.webservices.soap;
+package com.patternbox.webservices.application.restful;
 
+import java.util.List;
 import java.util.logging.Logger;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+import com.patternbox.webservices.domain.model.Author;
+import com.patternbox.webservices.domain.model.AuthorRepository;
 
 /**
- * Simple SOAP web service
+ * Library RESTful resources
  * 
  * @author <a href='http://www.patternbox.com'>D. Ehms, Patternbox</a>
  */
-@WebService(serviceName = "SimpleService")
-public class SimpleService {
+@Path("/library")
+@Stateless
+public class LibraryService {
 
 	@Inject
 	private Logger logger;
 
-	@WebMethod
-	public String hello() {
-		logger.info("Method 'hello' called.");
-		return "Hello Webservice";
+	@Inject
+	private AuthorRepository authorRepository;
+
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	public String root() {
+		logger.info("Method 'root' called.");
+		return "Hello Library Service";
+	}
+
+	@GET
+	@Path("/authors")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Author> authors() {
+		logger.info("Method 'authors' called.");
+		return authorRepository.all();
 	}
 }

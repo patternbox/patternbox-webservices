@@ -23,29 +23,16 @@ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
  ******************************************************************************/
-package com.patternbox.webservices.cdi;
+package com.patternbox.webservices.application.restful;
 
-import java.util.logging.Logger;
-
-import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.InjectionPoint;
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.core.Application;
 
 /**
- * CDI based JDK logger producer.
+ * Application path configuration for RESTful resources.
  * 
  * @author <a href='http://www.patternbox.com'>D. Ehms, Patternbox</a>
  */
-public class LoggerProducer {
-
-	/**
-	 * Produces and returns JDK logger instance.
-	 * 
-	 * @param injectionPoint
-	 *          the injection point to detect the required class name
-	 * @return JDK logger
-	 */
-	@Produces
-	Logger produceLogger(InjectionPoint injectionPoint) {
-		return Logger.getLogger(injectionPoint.getMember().getDeclaringClass().getName());
-	}
+@ApplicationPath("/restful")
+public class RestfulServiceApp extends Application {
 }

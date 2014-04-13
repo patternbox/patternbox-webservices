@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+  version="2.0">
+  <persistence-unit name="LibraryPU">
+  
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <jta-data-source>java:comp/DefaultDataSource</jta-data-source>
+    
+    <class>com.patternbox.webservices.domain.model.Author</class>
+    <class>com.patternbox.webservices.domain.model.Publisher</class>
+    <class>com.patternbox.webservices.domain.model.Literature</class>
+    <class>com.patternbox.webservices.domain.model.Book</class>
+    <class>com.patternbox.webservices.domain.model.Journal</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    
+    <properties>
+      <!-- EclipseLink specific properties -->
+      <property name="eclipselink.target-database" value="Derby" />
+      <property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
+      <!--property name="eclipselink.ddl-generation" value="create-tables"/ -->
+      <property name="eclipselink.debug" value="ALL" />
+      <property name="eclipselink.weaving" value="static" />
+      <property name="eclipselink.logging.level" value="FINEST" />
+      <property name="eclipselink.logging.level.sql" value="FINEST" />
+      <property name="eclipselink.logging.level.cache" value="FINEST" />
+    </properties>
+  </persistence-unit>
+</persistence>

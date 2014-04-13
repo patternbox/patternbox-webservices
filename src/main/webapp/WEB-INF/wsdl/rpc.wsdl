@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://soap.webservices.patternbox.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="RPC_Service" targetNamespace="http://soap.webservices.patternbox.com/">
+  <wsdl:message name="helloResponse">
+    <wsdl:part name="return" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="hello">
+    <wsdl:part name="param_name" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="RpcService">
+    <wsdl:operation name="hello">
+      <wsdl:input message="tns:hello" name="hello">
+    </wsdl:input>
+      <wsdl:output message="tns:helloResponse" name="helloResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="RPC_ServiceSoapBinding" type="tns:RpcService">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="hello">
+      <soap:operation soapAction="sayHello" style="rpc"/>
+      <wsdl:input name="hello">
+        <soap:body namespace="http://soap.webservices.patternbox.com/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="helloResponse">
+        <soap:body namespace="http://soap.webservices.patternbox.com/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="RPC_Service">
+    <wsdl:port binding="tns:RPC_ServiceSoapBinding" name="RpcServiceImplPort">
+      <soap:address location="http://quadcore:8080/patternbox-webservices/RPC_Service"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

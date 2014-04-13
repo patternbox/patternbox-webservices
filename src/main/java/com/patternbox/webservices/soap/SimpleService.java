@@ -36,7 +36,7 @@ import javax.jws.WebService;
  * 
  * @author <a href='http://www.patternbox.com'>D. Ehms, Patternbox</a>
  */
-@WebService
+@WebService(serviceName = "SimpleService")
 public class SimpleService {
 
 	@Inject

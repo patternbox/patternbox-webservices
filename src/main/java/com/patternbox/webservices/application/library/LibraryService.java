@@ -30,10 +30,14 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -63,8 +67,15 @@ public class LibraryService {
 	@Inject
 	private DataImporter dataImporter;
 
+	@PersistenceContext
+	private EntityManager em;
+
+	@Resource
+	private SessionContext sessionCtx;
+
 	@PostConstruct
 	private void init() {
+		logger.info("@PostConstruct: " + this);
 		try {
 			dataImporter.importAuthors();
 		} catch (IOException e) {
@@ -76,7 +87,7 @@ public class LibraryService {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String root() {
 		logger.info("Method 'root' called.");
-		return "Hello Library Service";
+		return "Hello Library Service: " + em;
 	}
 
 	@GET
